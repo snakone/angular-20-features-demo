@@ -1,0 +1,28 @@
+<div class="home-container">
+  <div class="hero-section">
+    <h1>Welcome to Angular 20 Features Demo</h1>
+    <p>Explore the latest and greatest features introduced in Angular 20</p>
+  </div>
+
+  <div class="features-grid">
+    @for (feature of features; track feature.title) {
+      <div class="feature-card" [routerLink]="feature.route">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+        <div class="feature-list">
+          @for (item of feature.features; track item) {
+            <span class="feature-tag">{{ item }}</span>
+          }
+        </div>
+        <div class="feature-arrow">→</div>
+      </div>
+    }
+  </div>
+
+  <div class="getting-started">
+    <h2>Getting Started</h2>
+    <p>Click on any feature card above to explore detailed examples and implementations.</p>
+    <p>Each demo includes interactive examples, code snippets, and explanations of the new Angular 20 features.</p>
+  </div>
+</div>

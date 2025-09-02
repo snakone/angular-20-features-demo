@@ -1,0 +1,273 @@
+<div class="control-flow-demo">
+  <div class="demo-header">
+    <h1>Angular 20 Control Flow Demo</h1>
+    <p>Explore the new built-in control flow syntax replacing *ngIf and *ngFor</p>
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="demo-sections">
+    <!-- @if Demo Section -->
+    <section class="demo-section">
+      <h2>if Control Flow</h2>
+      
+      <div class="control-flow-example">
+        <h3>Basic if</h3>
+        <div class="example-controls">
+          <button (click)="toggleContent()" class="btn btn-primary">
+            {{ showContent() ? 'Hide' : 'Show' }} Content
+          </button>
+        </div>
+        
+        @if (showContent()) {
+          <div class="content-box">
+            <p>This content is conditionally displayed using the new if syntax!</p>
+            <p>The if directive provides better performance than *ngIf and is more intuitive.</p>
+          </div>
+        } @else {
+          <div class="content-box hidden">
+            <p>Content is now hidden. Click the button above to show it again.</p>
+          </div>
+        }
+      </div>
+
+      <div class="control-flow-example">
+        <h3>Loading States with if</h3>
+        <div class="example-controls">
+          <button (click)="simulateLoading()" class="btn btn-primary" [disabled]="isLoading()">
+            {{ isLoading() ? 'Loading...' : 'Simulate Loading' }}
+          </button>
+        </div>
+        
+        @if (isLoading()) {
+          <div class="loading-box">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        } @else if (hasError()) {
+          <div class="error-box">
+            <p>{{ errorMessage() }}</p>
+            <button (click)="clearError()" class="btn btn-danger">Clear Error</button>
+          </div>
+        } @else {
+          <div class="success-box">
+            <p>✅ Data loaded successfully!</p>
+            <p>No errors occurred during the loading process.</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- @for Demo Section -->
+    <section class="demo-section">
+      <h2>for Control Flow</h2>
+      
+      <div class="control-flow-example">
+        <h3>Basic for Loop</h3>
+        <div class="example-controls">
+          <input 
+            type="text" 
+            #newItem
+            placeholder="Enter new item"
+            class="form-input"
+            (keyup.enter)="addItem(newItem.value); newItem.value = ''"
+          >
+          <button (click)="addItem(newItem.value); newItem.value = ''" class="btn btn-primary">Add Item</button>
+        </div>
+        
+        <div class="items-container">
+          @for (item of items(); track $index) {
+            <div class="item-card">
+              <span class="item-text">{{ item }}</span>
+              <button (click)="removeItem($index)" class="btn btn-danger btn-small">Remove</button>
+            </div>
+          } @empty {
+            <div class="empty-state">
+              <p>No items to display. Add some items above!</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="control-flow-example">
+        <h3>Complex for with Objects</h3>
+        <div class="users-grid">
+          @for (user of users(); track user.id) {
+            <div class="user-card" [class.inactive]="!user.active">
+              <h4>{{ user.name }}</h4>
+              <p class="user-role">{{ user.role }}</p>
+              <span class="status-badge" [class]="user.active ? 'active' : 'inactive'">
+                {{ user.active ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- @switch Demo Section -->
+    <section class="demo-section">
+      <h2>switch Control Flow</h2>
+      
+      <div class="control-flow-example">
+        <h3>Theme Selection with switch</h3>
+        <div class="theme-controls">
+          <button 
+            (click)="changeTheme('light')" 
+            class="btn" 
+            [class.btn-primary]="selectedTheme() === 'light'"
+          >
+            Light Theme
+          </button>
+          <button 
+            (click)="changeTheme('dark')" 
+            class="btn" 
+            [class.btn-primary]="selectedTheme() === 'dark'"
+          >
+            Dark Theme
+          </button>
+          <button 
+            (click)="changeTheme('auto')" 
+            class="btn" 
+            [class.btn-primary]="selectedTheme() === 'auto'"
+          >
+            Auto Theme
+          </button>
+        </div>
+        
+        <div class="theme-display">
+          @switch (selectedTheme()) {
+            @case ('light') {
+              <div class="theme-box light-theme">
+                <h4>Light Theme Selected</h4>
+                <p>This theme provides a clean, bright appearance suitable for daytime use.</p>
+                <div class="theme-preview light"></div>
+              </div>
+            }
+            @case ('dark') {
+              <div class="theme-box dark-theme">
+                <h4>Dark Theme Selected</h4>
+                <p>This theme reduces eye strain and is perfect for low-light environments.</p>
+                <div class="theme-preview dark"></div>
+              </div>
+            }
+            @case ('auto') {
+              <div class="theme-box auto-theme">
+                <h4>Auto Theme Selected</h4>
+                <p>This theme automatically adjusts based on your system preferences.</p>
+                <div class="theme-preview auto"></div>
+              </div>
+            }
+            @default {
+              <div class="theme-box default-theme">
+                <h4>Unknown Theme</h4>
+                <p>Please select a valid theme from the options above.</p>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="control-flow-example">
+        <h3>User Role with switch</h3>
+        <div class="role-controls">
+          <button 
+            (click)="changeUserRole('user')" 
+            class="btn" 
+            [class.btn-primary]="userRole() === 'user'"
+          >
+            User
+          </button>
+          <button 
+            (click)="changeUserRole('moderator')" 
+            class="btn" 
+            [class.btn-primary]="userRole() === 'moderator'"
+          >
+            Moderator
+          </button>
+          <button 
+            (click)="changeUserRole('admin')" 
+            class="btn" 
+            [class.btn-primary]="userRole() === 'admin'"
+          >
+            Admin
+          </button>
+        </div>
+        
+        <div class="role-display">
+          @switch (userRole()) {
+            @case ('admin') {
+              <div class="role-box admin-role">
+                <h4>Administrator Access</h4>
+                <p>You have full access to all system features and can manage other users.</p>
+                <ul>
+                  <li>User management</li>
+                  <li>System configuration</li>
+                  <li>Data analytics</li>
+                  <li>Security settings</li>
+                </ul>
+              </div>
+            }
+            @case ('moderator') {
+              <div class="role-box moderator-role">
+                <h4>Moderator Access</h4>
+                <p>You can moderate content and manage community interactions.</p>
+                <ul>
+                  <li>Content moderation</li>
+                  <li>User reports</li>
+                  <li>Community guidelines</li>
+                </ul>
+              </div>
+            }
+            @case ('user') {
+              <div class="role-box user-role">
+                <h4>Standard User Access</h4>
+                <p>You have access to basic features and can interact with the community.</p>
+                <ul>
+                  <li>View content</li>
+                  <li>Create posts</li>
+                  <li>Comment and interact</li>
+                </ul>
+              </div>
+            }
+            @default {
+              <div class="role-box default-role">
+                <h4>Unknown Role</h4>
+                <p>Please select a valid user role from the options above.</p>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance Benefits Section -->
+    <section class="demo-section">
+      <h2>Performance Benefits</h2>
+      <div class="performance-info">
+        <div class="benefit-item">
+          <h4>🚀 Better Performance</h4>
+          <p>The new control flow syntax is more efficient than structural directives and provides better tree-shaking.</p>
+        </div>
+        <div class="benefit-item">
+          <h4>🔧 Built-in Support</h4>
+          <p>No need for additional imports - if, for, and switch are built into Angular 20.</p>
+        </div>
+        <div class="benefit-item">
+          <h4>📱 Improved DX</h4>
+          <p>More intuitive syntax that's easier to read and maintain than the old *ngIf and *ngFor.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="demo-footer">
+    <h3>Key Features Demonstrated:</h3>
+    <ul>
+      <li><strong>@f:</strong> Conditional rendering with else blocks</li>
+      <li><strong>for:</strong> Iteration with tracking and empty states</li>
+      <li><strong>switch:</strong> Multiple condition handling with cases</li>
+      <li><strong>Performance:</strong> Better than structural directives</li>
+      <li><strong>Syntax:</strong> Cleaner and more intuitive</li>
+    </ul>
+  </div>
+</div>

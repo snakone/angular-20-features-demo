@@ -1,0 +1,92 @@
+<div class="animations-demo">
+  <div class="demo-header">
+    <h1>Angular 20 Animations Demo</h1>
+    <p>Enhanced animation system with new APIs and performance improvements</p>
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="demo-sections">
+    <section class="demo-section">
+      <h2>CSS Animations</h2>
+      <div class="animation-example">
+        <h3>Basic Animations</h3>
+        <p>Click the button below to trigger different CSS animations.</p>
+        
+        <div class="animation-controls">
+          <button (click)="changeAnimation('fade')" class="btn" [class.btn-primary]="currentAnimation() === 'fade'">Fade</button>
+          <button (click)="changeAnimation('slide')" class="btn" [class.btn-primary]="currentAnimation() === 'slide'">Slide</button>
+          <button (click)="changeAnimation('scale')" class="btn" [class.btn-primary]="currentAnimation() === 'scale'">Scale</button>
+          <button (click)="changeAnimation('rotate')" class="btn" [class.btn-primary]="currentAnimation() === 'rotate'">Rotate</button>
+        </div>
+        
+        <button (click)="toggleAnimatedContent()" class="btn btn-primary">
+          {{ showAnimatedContent() ? 'Hide' : 'Show' }} Animated Content
+        </button>
+        
+        @if (showAnimatedContent()) {
+          <div class="animated-content" [class]="currentAnimation()">
+            <h4>🎭 Animated Content</h4>
+            <p>This content demonstrates the selected animation type.</p>
+            <div class="animation-preview">
+              <div class="preview-element"></div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>View Transitions</h2>
+      <div class="animation-example">
+        <h3>Modern View Transitions API</h3>
+        <p>Experience smooth transitions between different view states using the latest web standards.</p>
+        
+        <button (click)="triggerViewTransition()" class="btn btn-primary">
+          {{ showViewTransition() ? 'Hide' : 'Show' }} View Transition
+        </button>
+        
+        @if (showViewTransition()) {
+          <div class="view-transition-demo">
+            <div class="transition-card">
+              <h4>✨ View Transition Active</h4>
+              <p>This demonstrates smooth transitions between view states.</p>
+              <div class="transition-content">
+                <div class="content-block"></div>
+                <div class="content-block"></div>
+                <div class="content-block"></div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Performance Optimizations</h2>
+      <div class="performance-info">
+        <div class="info-item">
+          <h4>🚀 Hardware Acceleration</h4>
+          <p>Animations now leverage GPU acceleration for smoother performance.</p>
+        </div>
+        <div class="info-item">
+          <h4>⚡ Reduced Reflows</h4>
+          <p>Smart batching of DOM updates to minimize layout thrashing.</p>
+        </div>
+        <div class="info-item">
+          <h4>🎯 Optimized Timing</h4>
+          <p>Better timing functions and easing for natural motion.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="demo-footer">
+    <h3>Key Features Demonstrated:</h3>
+    <ul>
+      <li><strong>CSS Animations:</strong> Smooth transitions and transforms</li>
+      <li><strong>View Transitions:</strong> Modern web standards for smooth state changes</li>
+      <li><strong>Performance:</strong> GPU acceleration and optimized rendering</li>
+      <li><strong>Flexibility:</strong> Easy to customize and extend</li>
+    </ul>
+  </div>
+</div>

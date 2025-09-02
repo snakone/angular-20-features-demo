@@ -1,0 +1,201 @@
+<div class="error-handling-demo">
+  <div class="demo-header">
+    <h1>Angular 20 Error Handling Demo</h1>
+    <p>Global error handling, error boundaries, and graceful error recovery</p>
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="demo-sections">
+    <!-- Error Overview Section -->
+    <section class="demo-section">
+      <h2>Error Handling Overview</h2>
+      <div class="info-box">
+        <p>Angular 20 provides comprehensive error handling mechanisms to ensure your application remains stable and provides a good user experience even when errors occur.</p>
+        <div class="benefits">
+          <h4>Key Features:</h4>
+          <ul>
+            <li>🚨 <strong>Global Error Handler:</strong> Catch and handle all unhandled errors</li>
+            <li>🛡️ <strong>Error Boundaries:</strong> Isolate errors to specific components</li>
+            <li>🔄 <strong>Graceful Recovery:</strong> Allow users to recover from errors</li>
+            <li>📊 <strong>Error Logging:</strong> Track and monitor application errors</li>
+            <li>⚡ <strong>Resource Error Handling:</strong> Built-in error states for async operations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Error Statistics Section -->
+    <section class="demo-section">
+      <h2>Error Statistics</h2>
+      <div class="error-stats">
+        <div class="stat-card">
+          <h3>Total Errors</h3>
+          <div class="stat-value">{{ errorCount() }}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Last Error</h3>
+          <div class="stat-text">{{ lastError() || 'No errors yet' }}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Global Errors</h3>
+          <div class="stat-value">{{ globalErrorCount() }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Synchronous Error Handling -->
+    <section class="demo-section">
+      <h2>Synchronous Error Handling</h2>
+      <div class="error-example">
+        <h3>Try-Catch Error Handling</h3>
+        <p>Demonstrates how to handle synchronous errors using try-catch blocks.</p>
+        
+        <div class="error-controls">
+          <button (click)="triggerSyncError()" class="btn btn-danger">Trigger Sync Error</button>
+          <button (click)="resetErrors()" class="btn btn-secondary">Reset Errors</button>
+        </div>
+
+        @if (shouldThrowError()) {
+          <div class="error-display">
+            <p>⚠️ Error triggered and caught successfully!</p>
+            <p>Check the console for error details.</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Asynchronous Error Handling -->
+    <section class="demo-section">
+      <h2>Asynchronous Error Handling</h2>
+      <div class="error-example">
+        <h3>Async Error Recovery</h3>
+        <p>Shows how to handle errors in asynchronous operations like API calls.</p>
+        
+        <div class="error-controls">
+          <button (click)="triggerAsyncError()" class="btn btn-danger" [disabled]="isAsyncLoading()">
+            {{ isAsyncLoading() ? 'Loading...' : 'Trigger Async Error' }}
+          </button>
+        </div>
+
+        @if (isAsyncLoading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Simulating async operation...</p>
+          </div>
+        }
+
+        @if (asyncError()) {
+          <div class="success-state">
+            <p>✅ {{ asyncError() }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Resource Error Handling -->
+    <section class="demo-section">
+      <h2>Resource Error Handling</h2>
+      <div class="error-example">
+        <h3>Resource Loading Errors</h3>
+        <p>Demonstrates error handling in resource loading scenarios.</p>
+        
+        <div class="error-controls">
+          <button (click)="triggerResourceError()" class="btn btn-danger">Trigger Resource Error</button>
+          <button (click)="loadResource()" class="btn btn-primary">Load Resource Successfully</button>
+        </div>
+
+        @if (resourceError()) {
+          <div class="error-state">
+            <p>❌ {{ resourceError() }}</p>
+          </div>
+        }
+
+        @if (resourceData()) {
+          <div class="success-state">
+            <p>✅ {{ resourceData().data }}</p>
+            <div class="resource-info">
+              <p><strong>ID:</strong> {{ resourceData().id }}</p>
+              <p><strong>Name:</strong> {{ resourceData().name }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Global Error Handler -->
+    <section class="demo-section">
+      <h2>Global Error Handler</h2>
+      <div class="error-example">
+        <h3>Application-Wide Error Handling</h3>
+        <p>The global error handler catches all unhandled errors in the application.</p>
+        
+        <div class="error-controls">
+          <button (click)="triggerGlobalError()" class="btn btn-warning">Trigger Global Error</button>
+          <button (click)="resetGlobalErrors()" class="btn btn-secondary">Reset Global Errors</button>
+        </div>
+
+        <div class="info-box">
+          <p>Global errors are logged to the console and can be sent to error tracking services.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component Error Boundary -->
+    <section class="demo-section">
+      <h2>Component Error Boundary</h2>
+      <div class="error-example">
+        <h3>Isolated Error Handling</h3>
+        <p>Error boundaries prevent errors in one component from crashing the entire application.</p>
+        
+        <div class="error-controls">
+          <button (click)="triggerComponentError()" class="btn btn-danger">Trigger Component Error</button>
+        </div>
+
+        @if (componentError()) {
+          <div class="error-boundary">
+            <h4>🚨 Component Error Boundary Activated</h4>
+            <p>{{ componentError() }}</p>
+            <p>This error was contained within the component boundary and didn't crash the app.</p>
+            <button (click)="componentError.set(null)" class="btn btn-primary">Recover</button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="demo-section">
+      <h2>Error Handling Best Practices</h2>
+      <div class="best-practices">
+        <div class="practice-item">
+          <h4>🎯 Always Handle Errors</h4>
+          <p>Never let errors go unhandled. Always provide fallback UI or recovery options.</p>
+        </div>
+        <div class="practice-item">
+          <h4>📝 Log Errors Appropriately</h4>
+          <p>Log errors with sufficient context for debugging while avoiding sensitive information.</p>
+        </div>
+        <div class="practice-item">
+          <h4>🔄 Provide Recovery Options</h4>
+          <p>Give users ways to recover from errors, such as retry buttons or alternative actions.</p>
+        </div>
+        <div class="practice-item">
+          <h4>🛡️ Use Error Boundaries</h4>
+          <p>Implement error boundaries to isolate errors and prevent application crashes.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="demo-footer">
+    <h3>Key Features Demonstrated:</h3>
+    <ul>
+      <li><strong>Synchronous Errors:</strong> Try-catch error handling</li>
+      <li><strong>Asynchronous Errors:</strong> Async operation error recovery</li>
+      <li><strong>Resource Errors:</strong> Built-in error states for resources</li>
+      <li><strong>Global Handler:</strong> Application-wide error catching</li>
+      <li><strong>Error Boundaries:</strong> Component-level error isolation</li>
+      <li><strong>Error Recovery:</strong> Graceful error recovery mechanisms</li>
+    </ul>
+  </div>
+</div>
+

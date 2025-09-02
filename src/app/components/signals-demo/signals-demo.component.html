@@ -1,0 +1,168 @@
+<div class="signals-demo">
+  <div class="demo-header">
+    <h1>Angular 20 Signals Demo</h1>
+    <p>Explore the power of Signals for reactive state management</p>
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="demo-sections">
+    <!-- Basic Signals Section -->
+    <section class="demo-section">
+      <h2>Basic Signals</h2>
+      <div class="signal-example">
+        <h3>Counter Signal</h3>
+        <div class="counter-display">
+          <p>Count: <strong>{{ count() }}</strong></p>
+          <p>Double Count: <strong>{{ doubleCount() }}</strong></p>
+          <p>Is Even: <strong>{{ isEven() ? 'Yes' : 'No' }}</strong></p>
+        </div>
+        <div class="counter-controls">
+          <button (click)="increment()" class="btn btn-primary">+</button>
+          <button (click)="decrement()" class="btn btn-secondary">-</button>
+          <button (click)="reset()" class="btn btn-danger">Reset</button>
+        </div>
+      </div>
+
+      <div class="signal-example">
+        <h3>Name Signal</h3>
+        <p>Current Name: <strong>{{ name() }}</strong></p>
+        <input 
+          type="text" 
+          [value]="name()" 
+          (input)="updateName(($any($event.target).value))"
+          placeholder="Enter new name"
+          class="form-input"
+        >
+      </div>
+    </section>
+
+    <!-- Computed Signals Section -->
+    <section class="demo-section">
+      <h2>Computed Signals</h2>
+      <div class="signal-example">
+        <h3>Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Count:</span>
+            <span class="stat-value">{{ statistics().count }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Double:</span>
+            <span class="stat-value">{{ statistics().doubleCount }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Even:</span>
+            <span class="stat-value">{{ statistics().isEven ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Items:</span>
+            <span class="stat-value">{{ statistics().itemCount }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">First Item:</span>
+            <span class="stat-value">{{ statistics().firstItem }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Last Item:</span>
+            <span class="stat-value">{{ statistics().lastItem }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Array Signals Section -->
+    <section class="demo-section">
+      <h2>Array Signals</h2>
+      <div class="signal-example">
+        <h3>Items List</h3>
+        <div class="add-item-form">
+          <input 
+            type="text" 
+            #itemInput
+            placeholder="Enter item name"
+            class="form-input"
+            (keyup.enter)="addItem(itemInput.value); itemInput.value = ''"
+          >
+          <button (click)="addItem(itemInput.value); itemInput.value = ''" class="btn btn-primary">Add Item</button>
+        </div>
+        
+        <div class="items-list">
+          @for (item of items(); track $index) {
+            <div class="item-row">
+              <span class="item-text">{{ item }}</span>
+              <button (click)="removeItem($index)" class="btn btn-danger btn-small">Remove</button>
+            </div>
+          } @empty {
+            <p class="empty-state">No items added yet</p>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Object Signals Section -->
+    <section class="demo-section">
+      <h2>Object Signals</h2>
+      <div class="signal-example">
+        <h3>User Object</h3>
+        <div class="user-display">
+          <p><strong>Display Name:</strong> {{ userDisplayName() }}</p>
+        </div>
+        <div class="user-form">
+          <div class="form-group">
+            <label>Name:</label>
+            <input 
+              type="text" 
+              [value]="user().name"
+              (input)="updateUser('name', $any($event.target).value)"
+              class="form-input"
+            >
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input 
+              type="email" 
+              [value]="user().email"
+              (input)="updateUser('email', $any($event.target).value)"
+              class="form-input"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Async Signals Section -->
+    <section class="demo-section">
+      <h2>Async-like Signals</h2>
+      <div class="signal-example">
+        <h3>Simulated Async Data</h3>
+        <p>Data: <strong>{{ asyncData() }}</strong></p>
+        <button (click)="simulateAsync()" class="btn btn-primary">Load Data</button>
+      </div>
+    </section>
+
+    <!-- Effects Section -->
+    <section class="demo-section">
+      <h2>Effects</h2>
+      <div class="signal-example">
+        <h3>Console Logging</h3>
+        <p>Open your browser console to see the effects in action!</p>
+        <p>Effects automatically run when signals change and log:</p>
+        <ul>
+          <li>Count changes and whether it's even</li>
+          <li>Items array modifications</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="demo-footer">
+    <h3>Key Features Demonstrated:</h3>
+    <ul>
+      <li><strong>Writable Signals:</strong> count, name, items, user</li>
+      <li><strong>Computed Signals:</strong> doubleCount, isEven, statistics</li>
+      <li><strong>Effects:</strong> Automatic side effects when signals change</li>
+      <li><strong>Signal Updates:</strong> set(), update() methods</li>
+      <li><strong>Reactive UI:</strong> Automatic change detection</li>
+    </ul>
+  </div>
+</div>

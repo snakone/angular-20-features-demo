@@ -1,0 +1,259 @@
+<div class="defer-demo">
+  <div class="demo-header">
+    <h1>Angular 20 Defer Demo</h1>
+    <p>Explore lazy loading with the new defer directive for better performance</p>
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="demo-sections">
+    <!-- Defer Overview Section -->
+    <section class="demo-section">
+              <h2>What is &#64;defer?</h2>
+        <div class="info-box">
+          <p>The &#64;defer directive allows you to lazy load components and templates, improving initial page load performance by deferring the loading of non-critical content until it's needed.</p>
+        <div class="benefits">
+          <h4>Key Benefits:</h4>
+          <ul>
+            <li>🚀 <strong>Faster Initial Load:</strong> Only load what's immediately visible</li>
+            <li>💾 <strong>Reduced Bundle Size:</strong> Split code into smaller chunks</li>
+            <li>📱 <strong>Better User Experience:</strong> Progressive loading of content</li>
+            <li>🔧 <strong>Automatic Code Splitting:</strong> Angular handles the complexity</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Defer Demo -->
+    <section class="demo-section">
+                      <h2>Basic &#64;defer Example</h2>
+        <div class="defer-example">
+          <h3>Heavy Component Loading</h3>
+          <p>Click the button below to trigger the loading of a heavy component that would normally slow down your initial page load.</p>
+          
+          <div class="example-controls">
+            <button (click)="triggerHeavyComponent()" class="btn btn-primary">
+              Load Heavy Component
+            </button>
+          </div>
+          
+          @if (showHeavyComponent()) {
+            @defer (on interaction) {
+              <div class="heavy-component">
+                <h4>🚀 Heavy Component Loaded!</h4>
+                <p>This component was loaded on-demand using &#64;defer, improving your initial page load time.</p>
+                <div class="component-content">
+                  <div class="simulated-content">
+                    <div class="content-block"></div>
+                    <div class="content-block"></div>
+                    <div class="content-block"></div>
+                  </div>
+                </div>
+              </div>
+            } @placeholder {
+              <div class="placeholder-content">
+                <p>Click the button above to load the heavy component</p>
+              </div>
+            } @loading {
+              <div class="loading-placeholder">
+                <div class="spinner"></div>
+                <p>Loading heavy component...</p>
+              </div>
+            } @error {
+              <div class="error-placeholder">
+                <p>❌ Failed to load component</p>
+                <button (click)="triggerHeavyComponent()" class="btn btn-secondary">Retry</button>
+              </div>
+            }
+          }
+      </div>
+    </section>
+
+    <!-- Defer with Triggers -->
+    <section class="demo-section">
+      <h2>&#64;defer with Different Triggers</h2>
+      
+      <div class="defer-example">
+        <h3>Expensive Chart Component</h3>
+        <p>This chart component will be loaded when you hover over the trigger area, demonstrating on-demand loading.</p>
+        
+        <div class="trigger-area" (mouseenter)="triggerExpensiveChart()">
+          <p>🖱️ Hover over this area to load the chart component</p>
+        </div>
+        
+        @if (showExpensiveChart()) {
+          @defer (on hover) {
+            <div class="chart-component">
+              <h4>📊 Chart Component Loaded!</h4>
+              <p>This chart was loaded when you hovered over the trigger area.</p>
+              <div class="chart-placeholder">
+                <div class="chart-bars">
+                  <div class="bar" style="height: 60px;"></div>
+                  <div class="bar" style="height: 80px;"></div>
+                  <div class="bar" style="height: 45px;"></div>
+                  <div class="bar" style="height: 90px;"></div>
+                  <div class="bar" style="height: 70px;"></div>
+                </div>
+                <p class="chart-label">Sample Chart Data</p>
+              </div>
+            </div>
+          } @placeholder {
+            <div class="placeholder-content">
+              <p>Hover over the area above to load the chart</p>
+            </div>
+          } @loading {
+            <div class="loading-placeholder">
+              <div class="spinner"></div>
+              <p>Loading chart...</p>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="defer-example">
+        <h3>User Profile Component</h3>
+        <p>This profile component will be loaded when you interact with the button, showing interaction-based loading.</p>
+        
+        <div class="example-controls">
+          <button (click)="triggerUserProfile()" class="btn btn-secondary">
+            Load User Profile
+          </button>
+        </div>
+        
+        @if (showUserProfile()) {
+          @defer (on interaction) {
+            <div class="profile-component">
+              <h4>👤 User Profile Loaded!</h4>
+              <div class="profile-content">
+                <div class="avatar-placeholder"></div>
+                <div class="profile-info">
+                  <h5>John Doe</h5>
+                  <p>Software Developer</p>
+                  <p>📍 San Francisco, CA</p>
+                  <p>🔗 john.doe@example.com</p>
+                </div>
+              </div>
+            </div>
+          } @placeholder {
+            <div class="placeholder-content">
+              <p>Click the button above to load the user profile</p>
+            </div>
+          } @loading {
+            <div class="loading-placeholder">
+              <div class="spinner"></div>
+              <p>Loading profile...</p>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Defer with Conditions -->
+    <section class="demo-section">
+      <h2>&#64;defer with Conditions</h2>
+      
+      <div class="defer-example">
+        <h3>Data Table Component</h3>
+        <p>This data table will be loaded when the viewport becomes idle, demonstrating performance-based loading.</p>
+        
+        <div class="example-controls">
+          <button (click)="triggerDataTable()" class="btn btn-primary">
+            Prepare Data Table
+          </button>
+        </div>
+        
+        @if (showDataTable()) {
+          @defer (on idle) {
+            <div class="table-component">
+              <h4>📋 Data Table Loaded!</h4>
+              <p>This table was loaded when the browser became idle, ensuring smooth user experience.</p>
+              <div class="table-placeholder">
+                <table class="demo-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Project Alpha</td>
+                      <td><span class="status active">Active</span></td>
+                      <td><button class="btn btn-small">Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Project Beta</td>
+                      <td><span class="status pending">Pending</span></td>
+                      <td><button class="btn btn-small">Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Project Gamma</td>
+                      <td><span class="status completed">Completed</span></td>
+                      <td><button class="btn btn-small">View</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          } @placeholder {
+            <div class="placeholder-content">
+              <p>Click the button above to prepare the data table</p>
+            </div>
+          } @loading {
+            <div class="loading-placeholder">
+              <div class="spinner"></div>
+              <p>Loading data table...</p>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Defer Best Practices -->
+    <section class="demo-section">
+      <h2>&#64;defer Best Practices</h2>
+      <div class="best-practices">
+        <div class="practice-item">
+          <h4>🎯 Use for Heavy Components</h4>
+          <p>Defer components that are computationally expensive or have large dependencies.</p>
+        </div>
+        <div class="practice-item">
+          <h4>📱 Consider User Intent</h4>
+          <p>Use appropriate triggers like hover, interaction, or viewport conditions.</p>
+        </div>
+        <div class="practice-item">
+          <h4>⚡ Provide Loading States</h4>
+          <p>Always include &#64;loading blocks to show users that content is being loaded.</p>
+        </div>
+        <div class="practice-item">
+          <h4>🚨 Handle Errors Gracefully</h4>
+          <p>Include &#64;error blocks to handle loading failures and provide retry options.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reset Section -->
+    <section class="demo-section">
+      <h2>Reset Demo</h2>
+      <div class="reset-section">
+        <p>Click the button below to reset all deferred components and start over.</p>
+        <button (click)="resetAll()" class="btn btn-danger">Reset All Components</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="demo-footer">
+    <h3>Key Features Demonstrated:</h3>
+    <ul>
+      <li><strong>&#64;defer:</strong> Lazy loading of components and templates</li>
+      <li><strong>Triggers:</strong> on hover, on interaction, on idle</li>
+      <li><strong>Loading States:</strong> &#64;loading blocks for better UX</li>
+      <li><strong>Error Handling:</strong> &#64;error blocks for graceful failures</li>
+      <li><strong>Performance:</strong> Improved initial page load times</li>
+    </ul>
+  </div>
+</div>
